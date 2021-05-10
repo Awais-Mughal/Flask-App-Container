@@ -1,0 +1,15 @@
+
+upstream loadbalancer {
+	server localhost:5001;
+	server localhost:5002;
+}
+
+server {
+	listen 80;
+	server_name localhost;
+	location / {
+		proxy_pass http://loadbalancer/;
+		}
+	}
+
+#events { }	

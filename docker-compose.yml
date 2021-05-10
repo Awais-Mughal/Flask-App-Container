@@ -1,0 +1,44 @@
+version: '3.1'
+
+services:
+  nginx:
+    image: nginx:1.15
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf
+    ports:
+      - 8080:8080
+    networks:
+      - my-network
+    depends_on:
+      - flask1
+      - flask2  
+  flask1:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: flaskctn1
+    ports:
+      - 5001:5000      
+    networks:
+      my-network:
+        aliases:
+          - flask.app
+  flask2:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: flaskctn2
+    ports:
+      - 5002:5000
+    networks:
+      my-network:
+        aliases:
+          - flask.app2
+
+
+
+
+            
+networks:
+  my-network:
